@@ -1,0 +1,14 @@
+/*===== VARIABLES CSS =====*/
+:root {
+	--header-height: 3.5rem; /*56px*/
+}
+
+/*========== BASE ==========*/
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+html {
+	scroll-behavior: smooth;
+}
