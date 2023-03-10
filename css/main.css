@@ -1,14 +1,451 @@
-/*===== VARIABLES CSS =====*/
 :root {
-	--header-height: 3.5rem; /*56px*/
+	--header-height: 4rem;
+
+	/*========== Colors ==========*/
+	/*Color mode HSL(hue, saturation, lightness)*/
+	/*Color mode HSL(hue, saturation, lightness)*/
+	/*
+        Purple: hsl(250, 66%, 75%)
+        Blue: hsl(207, 90%, 72%)
+        Pink: hsl(356, 66%, 75%)
+        Teal: hsl(174, 63%, 62%)
+		  Green: hsl(142, 69%, 61%)
+  */
+	--hue: 87;
+	--sat: 66%;
+	--lig: 75%;
+	--second-hue: 184;
+	--first-color: hsl(87, 58%, 41%);
+	--first-color-alt: hsl(var(--hue), 57%, 53%);
+	--first-color-lighter: hsl(var(--hue), 92%, 85%);
+	--title-color: hsl(250, 8%, 15%);
+	--text-color: hsl(250, 8%, 45%);
+	--text-color-light: hsl(250, 8%, 65%);
+	--input-color: hsl(var(--hue-color), 70%, 96%);
+	--body-color: hsl(250, 60%, 99%);
+	--container-color: #fff;
+
+	/*========== Font and typography ==========*/
+	/*.5rem = 8px | 1rem = 16px ...*/
+	--body-font: "Poppins", sans-serif;
+	--biggest-font-size: 2rem;
+	--h1-font-size: 1.5rem;
+	--h2-font-size: 1.25rem;
+	--h3-font-size: 1.125rem;
+	--normal-font-size: 0.938rem;
+	--small-font-size: 0.813rem;
+	--smaller-font-size: 0.75rem;
+
+	/*========== Font weight ==========*/
+	--font-medium: 500;
+	--font-semi-bold: 600;
+	--mb-1-5: 1.5rem;
+
+	/*========== z index ==========*/
+	--z-normal: 1;
+	--z-tooltip: 10;
+	--z-fixed: 100;
+	--z-modal: 1000;
 }
 
-/*========== BASE ==========*/
+/* Responsive typography */
+@media screen and (min-width: 968px) {
+	:root {
+		--biggest-font-size: 3rem;
+		--h1-font-size: 2.25rem;
+		--h2-font-size: 1.5rem;
+		--h3-font-size: 1.25rem;
+		--normal-font-size: 1rem;
+		--small-font-size: 0.875rem;
+		--smaller-font-size: 0.813rem;
+		--tiny-font-size: 0.688rem;
+	}
+}
+
+/*=============== BASE ===============*/
 * {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
 }
+
 html {
 	scroll-behavior: smooth;
+}
+
+body,
+button,
+input,
+textarea {
+	font-family: var(--body-font);
+	font-size: var(--normal-font-size);
+}
+
+body {
+	margin: var(--header-height) 0 0 0;
+	background-color: var(--body-color);
+	color: var(--text-color);
+}
+
+button {
+	cursor: pointer;
+	border: none;
+	outline: none;
+}
+h1,
+h2,
+h3 {
+	color: var(--title-color);
+	font-weight: var(--font-semi-bold);
+}
+
+ul {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+/*=============== THEME ===============*/
+/*========== Variables Dark theme ==========*/
+body.dark-theme {
+	--first-color-dark: hsl(var(--hue), 66%, 71%);
+	--title-color: hsl(var(--second-hue), 15%, 95%);
+	--text-color: hsl(var(--second-hue), 8%, 75%);
+	--body-color: hsl(184, 100%, 35%);
+	--container-color: hsl(var(--second-hue), 32%, 12%);
+}
+
+/*========== Button Dark/Light ==========*/
+.change-theme {
+	color: var(--title-color);
+	font-size: 1.15rem;
+	cursor: pointer;
+}
+
+.nav__btns {
+	display: inline-flex;
+	align-items: center;
+	column-gap: 1rem;
+}
+
+/*========== 
+Color changes in some parts of the website, in dark theme ==========*/
+
+.dark-theme .nav__link:hover {
+	color: var(--first-color-footer);
+}
+.dark-theme .active-link {
+	color: var(--title-color);
+}
+
+.dark-theme .footer__title,
+.dark-theme .footer__social-link,
+.dark-theme .footer__rights {
+	color: var(--title-color);
+}
+.dark-theme .scroll-header {
+	box-shadow: 0 1px 4px hsla(var(--hue), 4%, 4%, 0.3);
+}
+
+/*========== REUSABLE CSS CLASSES==========*/
+.section__title,
+.section__title-center {
+	font-size: var(--h2-font-size);
+	margin-bottom: var(--mb-2);
+	line-height: 140%;
+}
+
+.section__title-center {
+	text-align: center;
+}
+
+.container {
+	max-width: 968px;
+	margin-left: var(--mb-1-5);
+	margin-right: var(--mb-1-5);
+}
+
+.grid {
+	display: grid;
+}
+
+.main {
+	overflow: hidden; /*For animation*/
+}
+
+/*===== HEADER & NAV =====*/
+.header {
+	width: 100%;
+	height: var(--header-height);
+	background-color: var(--first-color);
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: var(--z-fixed);
+	transition: 0.4s;
+	padding: 0.5rem 1rem;
+}
+
+/*=============== NAV ===============*/
+.nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.nav__logo {
+	display: block;
+	height: 48px;
+}
+
+.nav__toggle,
+.nav__close {
+	color: var(--title-color);
+}
+
+.nav__toggle {
+	display: inline-flex;
+	font-size: 1.2rem;
+	cursor: pointer;
+}
+
+@media screen and (max-width: 767px) {
+	.nav__menu {
+		position: fixed;
+		background-color: var(--container-color);
+		width: 80%;
+		box-shadow: -2px 0 4px hsla(var(--hue), 24%, 15%, 0.1);
+		height: 100%;
+		top: 0;
+		right: -100%;
+		padding: 4rem 0 0 3rem;
+		border-radius: 1rem 0 0 1rem;
+		transition: 0.3s;
+		z-index: var(--z-fixed);
+	}
+}
+
+.nav__close {
+	font-size: 1.5rem;
+	position: absolute;
+	top: 1rem;
+	right: 1.25rem;
+	cursor: pointer;
+}
+
+.nav__list {
+	display: flex;
+	flex-direction: column;
+	row-gap: 1.5rem;
+}
+
+.nav__link {
+	color: var(--title-color);
+	font-weight: var(--font-medium);
+	transition: 0.3s;
+}
+
+.nav__link:hover {
+	color: var(--first-color);
+}
+
+/* Show menu */
+.show-menu {
+	right: 0;
+}
+
+/* Change background header */
+.scroll-header {
+	box-shadow: 0 1px 4px hsla(var(--hue), 4%, 15%, 0.1);
+}
+
+/* Active link */
+.active-link {
+	position: relative;
+	color: var(--first-color);
+}
+
+.active-link::after {
+	content: "";
+	position: absolute;
+	bottom: -0.5rem;
+	left: 0;
+	width: 50%;
+	height: 2px;
+	background-color: var(--first-color);
+}
+
+/* ===== PROJECTS -SLIDER=====*/
+/* ===== PROJECTS =====*/
+.projects__content {
+	width: 100%;
+	height: 506px;
+	justify-content: center;
+}
+.projects__img {
+	height: 100%;
+}
+
+.projects__title {
+	font-size: var(--h2-font-size);
+	margin-bottom: 1.25rem;
+	margin: 0.5rem 0 1.25rem;
+}
+
+/* ===== Swiper class=====*/
+.projects__container .swiper-button-prev::after,
+.projects__container .swiper-button-next::after {
+	content: "";
+}
+
+.projects__container .swiper-button-prev,
+.projects__container .swiper-button-next {
+	width: initial;
+	height: initial;
+	margin: initial;
+	font-size: 2.5rem;
+	color: var(--title-color);
+}
+
+.projects__container .swiper-button-prev {
+	left: -1rem;
+	top: 4.5rem;
+}
+
+.projects__container .swiper-button-next {
+	right: -1rem;
+	top: 4.5rem;
+}
+
+.projects__container .swiper-pagination-bullets {
+	bottom: 0;
+}
+
+.projects__container .swiper-pagination-bullet {
+	background-color: var(--text-color-light);
+	opacity: initial;
+}
+
+.projects__container .swiper-pagination-bullet-active {
+	background-color: var(--title-color);
+}
+
+/*=============== BREAKPOINTS ===============*/
+/*For small devices*/
+@media screen and (max-width: 340px) {
+	.container {
+		margin-inline: 1rem;
+	}
+
+	.nav__menu {
+		padding-bottom: 4rem;
+	}
+
+	.nav__list {
+		gap: 1rem 1.25rem;
+	}
+
+	/*SLIDER*/
+	.projects__img {
+		width: 200px;
+		justify-self: center;
+	}
+}
+
+/*For medium devices*/
+@media screen and (min-width: 576px) {
+	.nav,
+	.nav__menu {
+		width: 380px;
+	}
+
+	.nav {
+		margin: 0 auto;
+	}
+
+	.projects__container {
+		width: 400px;
+	}
+
+	.projects__container {
+		overflow: hidden;
+	}
+
+	.projects__container .swiper-button-prev {
+		left: 1rem;
+	}
+	.projects__container .swiper-button-next {
+		right: 1rem;
+	}
+}
+
+@media screen and (min-width: 767px) {
+	body {
+		margin: 0;
+	}
+
+	.nav {
+		height: calc(var(--header-height) + 1rem);
+		column-gap: 3rem;
+	}
+	.nav__toggle,
+	.nav__close {
+		display: none;
+	}
+	.nav__list {
+		flex-direction: row;
+		column-gap: 1.5rem;
+	}
+	.nav__menu {
+		margin-left: auto;
+	}
+
+	.projects__container {
+		width: 500px;
+	}
+}
+
+/* For large devices */
+@media screen and (min-width: 992px) {
+	.container {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.nav__menu {
+		font-size: 1rem;
+	}
+
+	.nav__list {
+		column-gap: 2rem;
+	}
+}
+
+@media screen and (min-width: 1200px) {
+	.nav__list {
+		column-gap: 3.5rem;
+	}
+	.projects__container {
+		width: 900px;
+	}
+
+	.projects__container .swiper-button-prev,
+	.projects__container .swiper-button-next {
+		font-size: 3rem;
+	}
+	.projects__container .swiper-button-prev {
+		left: -1rem;
+	}
+	.projects__container .swiper-button-next {
+		right: -1rem;
+	}
+	.projects__container .swiper-slide {
+		margin-bottom: 6.5rem;
+	}
+	.projects__img {
+		width: 320px;
+		margin-bottom: 2rem;
+	}
 }
